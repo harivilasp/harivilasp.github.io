@@ -1,0 +1,156 @@
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: rgb(10, 25, 47);
+  color: white;
+}
+
+.navbar-nav > li {
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.navbar {
+  box-shadow: rgba(2, 12, 27, 0.7) 0px 10px 30px -10px;
+  background-color: rgb(10, 25, 47);
+  z-index: 1024;
+}
+
+.navbar-toggler {
+  float: right;
+  border: none;
+  padding-right: 0;
+}
+
+.navbar-toggler:active,
+.navbar-toggler:focus {
+  outline: none;
+}
+
+.navbar-light .navbar-toggler-icon {
+  width: 24px;
+  height: 17px;
+  background-image: none;
+  position: relative;
+  border-bottom: 1px solid rgb(100, 255, 218);
+  transition: all 300ms linear;
+}
+
+.navbar-light .navbar-toggler-icon:after,
+.navbar-light .navbar-toggler-icon:before {
+  width: 24px;
+  position: absolute;
+  height: 1px;
+  background-color: rgb(100, 255, 218);
+  top: 0;
+  left: 0;
+  content: "";
+  z-index: 2;
+  transition: all 300ms linear;
+}
+
+.navbar-light .navbar-toggler-icon:after {
+  top: 8px;
+}
+
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon:after {
+  transform: rotate(45deg);
+}
+
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon:before {
+  transform: translateY(8px) rotate(-45deg);
+}
+
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
+  border-color: transparent;
+}
+
+#navtext,
+#main {
+  color: rgb(100, 255, 218);
+  font-family: "Fira Mono", monospace;
+}
+
+#heading {
+  color: white;
+  font-size: 5em;
+  font-family: "Work Sans", sans-serif;
+}
+
+#heading2 {
+  color: white;
+  font-size: 3em;
+  font-family: "Work Sans", sans-serif;
+}
+
+#heading3 {
+  /* padding-top: 1em; */
+  color: white;
+  font-size: 1em;
+  font-family: "Work Sans", sans-serif;
+}
+
+.container {
+  padding-top: 6rem;
+}
+
+#heading4 {
+  color: white;
+  font-family: "Work Sans", sans-serif;
+}
+
+#heading5 {
+  color: white;
+}
+
+:root {
+  --primary: #22d2a0;
+  --secondary: #192824;
+  --background: #192824;
+  --green: rgb(100, 255, 218);
+  --yellow: #ffd913;
+  --orange: #ff9c55;
+  --red: #ff5555;
+}
+
+/* Contact Me Starts */
+
+.list {
+  display: flex;
+  list-style: none;
+  justify-content: center;
+  padding-left: 0;
+}
+
+footer {
+  background: rgb(10, 25, 47);
+  bottom: 0;
+  padding-left: 30pxb;
+  left: 0;
+  right: 0;
+  -webkit-box-shadow: 0px -4px 5px 0px rgba(2, 12, 27, 0.7);
+  -moz-box-shadow: 0px -4px 5px 0px rgba(2, 12, 27, 0.7);
+  box-shadow: 0px -4px 5px 0px rgba(2, 12, 27, 0.7);
+}
+
+/* Pre-loader Starts */
+
+.loader {
+  width: 100%;
+  height: 100%;
+  background-color: rgb(10, 25, 47);
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 10000;
+}
+
+.loader .inner {
+  width: 100%;
+  height: 100%;
+  background: url(./assets/load.gif) center center no-repeat;
+}
+
+/* Pre-loader Ends */
