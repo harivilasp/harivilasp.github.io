@@ -3,11 +3,9 @@ const pronounceBtn = document.getElementById("pronounceBtn");
 const transcriptElement = document.getElementById("transcript");
 const highlightedText = document.getElementById("highlighted-text");
 
-// Add this function at the beginning of your script.js file
 async function fetchDisplayText() {
   try {
     const response = await fetch(
-      // "https://1e6cor4bec.execute-api.us-east-1.amazonaws.com/"
       "https://wourf43voqpqjsitzplluyj34m0dpnxw.lambda-url.us-east-1.on.aws/"
     );
     const data = await response.json();
@@ -18,7 +16,6 @@ async function fetchDisplayText() {
   }
 }
 
-// Modify the beginning of your script.js file to use the fetched text
 let displayText, cleanText, words, wordCount;
 
 async function initializeText() {
@@ -62,16 +59,16 @@ initializeText().then(() => {
   });
   const textContent = displayText.textContent;
 
-  displayText.addEventListener("mouseup", () => {
-    const selection = window.getSelection();
-    selectedWord = selection.toString().trim();
+  // displayText.addEventListener("mouseup", () => {
+  //   const selection = window.getSelection();
+  //   selectedWord = selection.toString().trim();
 
-    if (selectedWord) {
-      pronounceBtn.disabled = false;
-    } else {
-      pronounceBtn.disabled = true;
-    }
-  });
+  //   // if (selectedWord) {
+  //   //   pronounceBtn.disabled = false;
+  //   // } else {
+  //   //   pronounceBtn.disabled = true;
+  //   // }
+  // });
 
   async function fetchWordMeaning(word) {
     word = word.toLowerCase();
@@ -101,6 +98,8 @@ initializeText().then(() => {
   }
 
   pronounceBtn.addEventListener("click", async () => {
+    const selection = window.getSelection();
+    selectedWord = selection.toString().trim();
     if (selectedWord) {
       const utterance = new SpeechSynthesisUtterance(selectedWord);
       window.speechSynthesis.speak(utterance);
