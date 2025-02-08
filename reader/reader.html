@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Read-Along Highlighter with Transcript</title>
+    <link rel="stylesheet" href="./style.css" type="text/css" />
+  </head>
+  <body>
+    <div id="text-container">
+      <p id="display-text">
+        This is a sample text that will be Highlighted as you read it aloud Try
+        reading it now I am good
+      </p>
+    </div>
+    <div id="highlighted-container">
+      <h3>Highlighted Text:</h3>
+      <p id="highlighted-text"></p>
+    </div>
+    <div id="meaning-container">
+      <h3>Word Meaning:</h3>
+      <p id="word-meaning"></p>
+    </div>
+    <div id="transcript-container">
+      <h3>Transcript:</h3>
+      <p id="transcript"></p>
+    </div>
+    <button id="pronounceBtn" disabled>Pronounce Selected Word</button>
+    <button id="startBtn">Start Reading</button>
+    <script src="script.js"></script>
+  </body>
+</html>
