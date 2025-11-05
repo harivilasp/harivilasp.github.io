@@ -3,27 +3,27 @@ const pronounceBtn = document.getElementById("pronounceBtn");
 const transcriptElement = document.getElementById("transcript");
 const highlightedText = document.getElementById("highlighted-text");
 
-async function fetchDisplayText() {
-  try {
-    const response = await fetch(
-      "https://wourf43voqpqjsitzplluyj34m0dpnxw.lambda-url.us-east-1.on.aws/"
-    );
-    const data = await response.json();
-    return data.replace(/^"|"$/g, ""); // Remove surrounding quotes
-  } catch (error) {
-    console.error("Error fetching display text:", error);
-    return "Error fetching text. Please try again.";
-  }
+const paragraphs = [
+  "This is the first sample paragraph for the reader application. It will be used to test the highlighting and pronunciation features. We can add more sentences to make it longer and more comprehensive. The quick brown fox jumps over the lazy dog.",
+  "Here is the second paragraph. It contains different words and phrases to provide variety. Learning to read effectively involves practice and understanding context. A journey of a thousand miles begins with a single step.",
+  "The third paragraph offers another set of challenges for the reader. Focus on your pronunciation and try to understand the meaning of each sentence. Reading regularly improves vocabulary and comprehension skills. The early bird catches the worm.",
+  "This is the fourth paragraph, designed to further test the application's capabilities. Pay attention to the flow and rhythm of the text. Consistent reading habits lead to better literacy. All that glitters is not gold.",
+  "Finally, the fifth paragraph provides additional content. Engage with the text actively to enhance your reading experience. Practice makes perfect when it comes to mastering any skill. When in Rome, do as the Romans do.",
+];
+
+let displayTextElement, cleanText, words, wordCount;
+
+function getRandomParagraph() {
+  const randomIndex = Math.floor(Math.random() * paragraphs.length);
+  return paragraphs[randomIndex];
 }
 
-let displayText, cleanText, words, wordCount;
-
 async function initializeText() {
-  const fetchedText = await fetchDisplayText();
-  displayText = document.getElementById("display-text");
-  displayText.textContent = fetchedText;
+  const selectedParagraph = getRandomParagraph();
+  displayTextElement = document.getElementById("display-text");
+  displayTextElement.textContent = selectedParagraph;
 
-  cleanText = fetchedText
+  cleanText = selectedParagraph
     .replace(/[^\w\s]|_/g, " ")
     .replace(/\s+/g, " ")
     .toLowerCase()
@@ -31,6 +31,10 @@ async function initializeText() {
 
   words = cleanText.split(" ");
   wordCount = words.length;
+  currentIndex = 0; // Reset for new paragraph
+  highlightedIndex = 0; // Reset for new paragraph
+  highlightedText.innerHTML = ""; // Clear highlighted text
+  transcriptElement.textContent = ""; // Clear transcript
 }
 
 let debugText = "";
@@ -57,7 +61,16 @@ initializeText().then(() => {
       startBtn.textContent = "Start Reading";
     }
   });
-  const textContent = displayText.textContent;
+
+  const newParagraphBtn = document.getElementById("newParagraphBtn");
+  if (newParagraphBtn) {
+    newParagraphBtn.addEventListener("click", () => {
+      recognition.stop(); // Stop current recognition if active
+      startBtn.textContent = "Start Reading"; // Reset start button text
+      initializeText(); // Load a new random paragraph
+    });
+  }
+  const textContent = displayTextElement.textContent;
 
   // displayText.addEventListener("mouseup", () => {
   //   const selection = window.getSelection();

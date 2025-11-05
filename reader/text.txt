@@ -1,0 +1,1 @@
+This is a sample text for the reader application. It will be used to test the highlighting and pronunciation features. We can add more sentences to make it longer and more comprehensive. The quick brown fox jumps over the lazy dog.
