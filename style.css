@@ -90,24 +90,28 @@ body {
 
 .name-heading {
   color: white;
-  font-size: 4rem;
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
   font-family: "Work Sans", sans-serif;
+  font-weight: 700;
   margin-bottom: 0.5rem;
+  letter-spacing: -0.5px;
 }
 
 .tagline-heading {
   color: #a8b2d1; /* Lighter grey for secondary heading */
-  font-size: 3rem;
+  font-size: clamp(2rem, 6vw, 3.5rem);
   font-family: "Work Sans", sans-serif;
-  margin-bottom: 1rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.3px;
 }
 
 .description-text {
   color: #8892b0; /* Even lighter grey for body text */
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 2vw, 1.125rem);
   font-family: "Work Sans", sans-serif;
   max-width: 600px;
-  line-height: 1.5;
+  line-height: 1.7;
   margin-bottom: 2rem;
 }
 
@@ -126,6 +130,11 @@ body {
 
 .container {
   padding-top: 6rem;
+  padding-bottom: 4rem;
+}
+
+.container > .row {
+  row-gap: 2rem;
 }
 
 h2 section#main {
@@ -137,20 +146,24 @@ h2 section#main {
 
 h2 {
   color: white;
-  font-size: 2.5rem;
+  font-size: clamp(2rem, 5vw, 2.5rem);
   font-family: "Work Sans", sans-serif;
-  margin-bottom: 2rem;
+  font-weight: 700;
+  margin-bottom: 3rem;
 }
 
 #heading3 {
   color: #8892b0; /* Even lighter grey for body text */
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 2vw, 1.1rem);
   font-family: "Work Sans", sans-serif;
+  line-height: 1.6;
 }
 
 #heading4 {
   color: white;
   font-family: "Work Sans", sans-serif;
+  font-weight: 600;
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
 }
 
 #heading5 {
@@ -228,3 +241,145 @@ footer {
 }
 
 /* Pre-loader Ends */
+
+/* Card Improvements */
+.card-item {
+  background-color: rgb(10, 25, 47);
+  border: 1px solid rgba(100, 255, 218, 0.3);
+  border-radius: 8px;
+  padding: 2rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-item:hover {
+  transform: translateY(-5px);
+  border-color: rgb(100, 255, 218);
+  box-shadow: 0 10px 30px rgba(100, 255, 218, 0.15);
+}
+
+.card-item h1 {
+  margin-bottom: 1rem;
+  color: white;
+  transition: color 0.3s ease;
+}
+
+.card-item:hover h1 {
+  color: rgb(100, 255, 218);
+}
+
+.card-item ul {
+  margin-top: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.card-item ul li {
+  margin-bottom: 0.75rem;
+  color: #8892b0;
+  line-height: 1.6;
+}
+
+.card-item ul li::marker {
+  color: rgb(100, 255, 218);
+}
+
+/* Shadow yellow border styling - compatibility */
+.shadow-yellow {
+  background-color: rgb(10, 25, 47);
+  border: 1px solid rgba(100, 255, 218, 0.3);
+  border-radius: 8px;
+  padding: 2rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-yellow:hover {
+  transform: translateY(-5px);
+  border-color: rgb(100, 255, 218);
+  box-shadow: 0 10px 30px rgba(100, 255, 218, 0.15);
+}
+
+.shadow-yellow h1 {
+  margin-bottom: 1rem;
+  transition: color 0.3s ease;
+}
+
+.shadow-yellow:hover h1 {
+  color: rgb(100, 255, 218);
+}
+
+.shadow-yellow ul {
+  margin-top: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.shadow-yellow ul li {
+  margin-bottom: 0.75rem;
+  color: #8892b0;
+  line-height: 1.6;
+}
+
+.shadow-yellow ul li::marker {
+  color: rgb(100, 255, 218);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar-nav {
+    padding-top: 1rem;
+  }
+
+  .navbar-nav > li {
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  .main {
+    padding: 2rem 1rem;
+  }
+
+  .container {
+    padding-top: 4rem;
+    padding-bottom: 3rem;
+  }
+
+  .about .img-thumbnail {
+    margin-top: 2rem;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+
+  .about ul.list-inline {
+    text-align: center;
+  }
+
+  .about ul.list-inline li {
+    display: block;
+    margin: 0.5rem auto;
+  }
+
+  .card-item,
+  .shadow-yellow {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .intro-text {
+    font-size: 0.9rem;
+  }
+
+  .card-item,
+  .shadow-yellow {
+    padding: 1.25rem;
+  }
+
+  .list {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+}
