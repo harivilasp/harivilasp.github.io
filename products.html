@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Products</title>
+    <title>Products - Hari Vilas Panjwani</title>
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -12,6 +12,13 @@
     />
     <link rel="stylesheet" href="style.css" />
     <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
       href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
@@ -19,6 +26,14 @@
       href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@600;700&display=swap"
       rel="stylesheet"
     />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-S0RBJWL28N"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-S0RBJWL28N');
+    </script>
     <!-- Vercel Web Analytics -->
     <script>
       window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
@@ -27,9 +42,7 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light sticky-top">
-      <a class="navbar-brand" href="index.html" id="navtext"
-        >⬢ Hari Vilas Panjwani</a
-      >
+      <a class="navbar-brand" href="index.html" id="navtext">Hari</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -103,135 +116,118 @@
       </div>
     </nav>
 
-    <main class="container">
-      <section id="product-list">
-        <h2 id="heading">Products</h2>
-        <br />
+    <div class="container" id="products">
+        <h2>
+            <section id="main">
+                06. Products
+            </section>
+        </h2>
         <div class="row">
-          <div class="col-md-12 mb-4">
-            <div
-              class="shadow-yellow border border-near-black border-width-2 border-radius-2 p-4 d-flex flex-column justify-content-between"
-              style="
-                height: 100%;
-                background-color: rgb(10, 25, 47);
-                border-color: rgb(100, 255, 218) !important;
-              "
-            >
-              <h3 class="h2 mb-3" id="heading4">
-                <a
-                  href="https://github.com/harivilasp/Webiste-Open-Warn-chrome-extension"
-                  style="color: rgb(100, 255, 218)"
-                  target="_blank"
-                  >Website Open Warn Chrome Extension</a
-                >
-              </h3>
-              <p class="mt-4 text-black-90 flex-fill" id="heading3">
-                This Chrome extension helps you stay focused by warning you
-                before opening distracting websites and reminding you to stay on
-                task for study purposes.
-              </p>
+            <div class="col-md-6">
+                <div class="card">
+                    <h3 class="card-title">
+                        <a href="https://github.com/harivilasp/Webiste-Open-Warn-chrome-extension"
+                           class="card-link" target="_blank">
+                            Website Open Warn Chrome Extension
+                        </a>
+                    </h3>
+                    <p class="card-detail">
+                        This Chrome extension helps you stay focused by warning you before opening
+                        distracting websites and reminding you to stay on task for study purposes.
+                    </p>
+                </div>
             </div>
-          </div>
-          <div class="col-md-12 mb-4">
-            <div
-              class="shadow-yellow border border-near-black border-width-2 border-radius-2 p-4 d-flex flex-column justify-content-between"
-              style="
-                height: 100%;
-                background-color: rgb(10, 25, 47);
-                border-color: rgb(100, 255, 218) !important;
-              "
-            >
-              <h3 class="h2 mb-3" id="heading4">
-                <a
-                  href="job-search/index.html"
-                  style="color: rgb(100, 255, 218)"
-                  >Job Search Google Custom Portal</a
-                >
-              </h3>
-              <p class="mt-4 text-black-90 flex-fill" id="heading3">
-                A custom portal designed to streamline your job search
-                experience using Google's powerful search capabilities.
-              </p>
-            </div>
-          </div>
-          <div class="col-md-12 mb-4">
-            <div
-              class="shadow-yellow border border-near-black border-width-2 border-radius-2 p-4 d-flex flex-column justify-content-between"
-              style="
-                height: 100%;
-                background-color: rgb(10, 25, 47);
-                border-color: rgb(100, 255, 218) !important;
-              "
-            >
-              <h3 class="h2 mb-3" id="heading4">
-                <a href="reader/reader.html" style="color: rgb(100, 255, 218)"
-                  >Reader</a
-                >
-              </h3>
-              <p class="mt-4 text-black-90 flex-fill" id="heading3">
-                A simple web-based reader application.
-              </p>
-            </div>
-          </div>
-          <div class="col-md-12">
-            <div
-              class="shadow-yellow border border-near-black border-width-2 border-radius-2 p-4 d-flex flex-column justify-content-between"
-              style="
-                height: 100%;
-                background-color: rgb(10, 25, 47);
-                border-color: rgb(100, 255, 218) !important;
-              "
-            >
-              <h3 class="h2 mb-3" id="heading4">
-                <a
-                  href="https://chromewebstore.google.com/detail/mnemonic-finder-%E2%80%93-right-c/dlfjdmnhefchjkndgpfjobabibdomifh?authuser=6&hl=en"
-                  style="color: rgb(100, 255, 218)"
-                  >Mnemonic Finder – Right-Click Word Memory Helper</a
-                >
-              </h3>
-              <p class="mt-4 text-black-90 flex-fill" id="heading3">
-                A lightweight Chrome extension that helps you learn new words
-                faster by instantly searching their mnemonic meanings.
-              </p>
-            </div>
-          </div>
-          <div class="col-md-12 mb-4">
-            <div
-              class="shadow-yellow border border-near-black border-width-2 border-radius-2 p-4 d-flex flex-column justify-content-between"
-              style="
-                height: 100%;
-                background-color: rgb(10, 25, 47);
-                border-color: rgb(100, 255, 218) !important;
-              "
-            >
-              <h3 class="h2 mb-3" id="heading4">
-                <a
-                  href="https://quirky-mirzakhani-12bdf3.netlify.app/"
-                  style="color: rgb(100, 255, 218)"
-                  target="_blank"
-                  >Live HTML Code Editor</a
-                >
-              </h3>
-              <p class="mt-4 text-black-90 flex-fill" id="heading3">
-                An interactive in-browser code playground for HTML, CSS, and
-                JavaScript.
-              </p>
-            </div>
-          </div>
-          <!-- Add more products here -->
-        </div>
-      </section>
-    </main>
 
+            <div class="col-md-6">
+                <div class="card">
+                    <h3 class="card-title">
+                        <a href="job-search/index.html" class="card-link">
+                            Job Search Google Custom Portal
+                        </a>
+                    </h3>
+                    <p class="card-detail">
+                        A custom portal designed to streamline your job search experience using
+                        Google's powerful search capabilities.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card">
+                    <h3 class="card-title">
+                        <a href="reader/reader.html" class="card-link">
+                            Reader
+                        </a>
+                    </h3>
+                    <p class="card-detail">
+                        A simple web-based reader application.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card">
+                    <h3 class="card-title">
+                        <a href="https://chromewebstore.google.com/detail/mnemonic-finder-%E2%80%93-right-c/dlfjdmnhefchjkndgpfjobabibdomifh?authuser=6&hl=en"
+                           class="card-link" target="_blank">
+                            Mnemonic Finder – Right-Click Word Memory Helper
+                        </a>
+                    </h3>
+                    <p class="card-detail">
+                        A lightweight Chrome extension that helps you learn new words faster by
+                        instantly searching their mnemonic meanings.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card">
+                    <h3 class="card-title">
+                        <a href="https://quirky-mirzakhani-12bdf3.netlify.app/"
+                           class="card-link" target="_blank">
+                            Live HTML Code Editor
+                        </a>
+                    </h3>
+                    <p class="card-detail">
+                        An interactive in-browser code playground for HTML, CSS, and JavaScript.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card">
+                    <h3 class="card-title">
+                        <a href="https://github.com/harivilasp/Your-Problem-Of-Day"
+                           class="card-link" target="_blank">
+                            Your Problem Of Day
+                        </a>
+                    </h3>
+                    <p class="card-detail">
+                        Daily coding challenges and problems to keep your programming skills sharp.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card">
+                    <h3 class="card-title">
+                        <a href="https://github.com/harivilasp/Timer-And-Extra-Time-Stopwatch"
+                           class="card-link" target="_blank">
+                            Timer And Extra Time Stopwatch
+                        </a>
+                    </h3>
+                    <p class="card-detail">
+                        A versatile timer and stopwatch application with additional time tracking features.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
     <footer class="pt-2">
       <p id="main" align="center">
-        <i class="fas fa-code fa-2x pt-2"></i> with
-        <i class="fa fa-heart"></i> by Hari
-      </p>
-      <p id="main" align="center">
-        <a href="feedback/index.html" style="color: rgb(100, 255, 218)"
-          >Please give feedback here!</a
-        >
+        <i class="fas fa-code fa-2x pt-2"></i> with <i class="fa fa-heart"></i> by Hari
       </p>
       <p id="main" align="center" style="margin-bottom: 0px">
         Copyright &copy; <span class="year"></span> Hari Vilas Panjwani
@@ -255,6 +251,12 @@
       const date = new Date();
       const year = date.getFullYear();
       yearEl.innerText = year;
+    </script>
+
+    <script>
+      $('.navbar-collapse a').click(function() {
+        $(".navbar-collapse").collapse('hide');
+      });
     </script>
   </body>
 </html>
