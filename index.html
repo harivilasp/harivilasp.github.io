@@ -68,7 +68,10 @@
                     <a class="btn nav-link" href="#project" id="navtext" data-target=".navbar-collapse.show">Projects</a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn nav-link" href="#papers" id="navtext">Papers</a>
+                    <a class="btn nav-link" href="#papers" id="navtext">Research</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn nav-link" href="#currently" id="navtext">Ideas</a>
                 </li>
                 <li class="nav-item">
                     <a class="btn nav-link" href="#contact" id="navtext">Contact</a>
@@ -84,17 +87,21 @@
     <div class="intro-section container" id="main">
         <div class="row align-items-center">
             <div class="col-lg-9 col-md-8">
-                <h1 class="name-heading">Hari</h1>
-                <p class="tagline">Software Engineer at Amazon</p>
+                <h1 class="name-heading">Hari Vilas Panjwani</h1>
+                <p class="tagline">AI Engineer at Amazon — Agentic AI, LLMs & AWS AI Infrastructure</p>
                 <p class="bio">
-                    Building scalable systems and exceptional user experiences. Previously shipped features impacting 80K+ monthly active users.
-                    Strong in distributed systems, algorithms, and full-stack development.
+                    Building production-grade AI systems at Amazon — from conversational agents powered by AWS Bedrock to multi-step agentic workflows that automate complex seller operations at scale.
+                    Published researcher in deep learning with hands-on expertise in LLM evaluation, RAG architectures, and AI infrastructure on AWS.
+                    Passionate about the shift from static ML pipelines to autonomous AI agents that reason, plan, and act.
                 </p>
                 <div class="tech-stack">
-                    <span class="tech-badge">Java</span>
+                    <span class="tech-badge">Agentic AI</span>
+                    <span class="tech-badge">LLMs</span>
+                    <span class="tech-badge">AWS Bedrock</span>
+                    <span class="tech-badge">RAG</span>
+                    <span class="tech-badge">Conversational AI</span>
                     <span class="tech-badge">Python</span>
-                    <span class="tech-badge">JavaScript</span>
-                    <span class="tech-badge">React</span>
+                    <span class="tech-badge">Java</span>
                     <span class="tech-badge">AWS</span>
                 </div>
             </div>
@@ -116,11 +123,13 @@
             <div class="col-12">
                 <div class="card">
                     <h3 class="card-title">Amazon</h3>
-                    <p class="card-location">Software Engineer • Seattle, WA</p>
+                    <p class="card-location">AI/ML Engineer • Seattle, WA</p>
                     <ul class="card-list">
-                        <li>Redesigned seller feedback system (Java, React) increasing positive feedback by 30%</li>
-                        <li>Built Seller Assistant using RAG and AWS Bedrock to streamline claims processing</li>
-                        <li>Migrated email notification service handling 250K+ emails monthly</li>
+                        <li>Architected <strong style="color: #a8b2d1;">Seller Assistant</strong> — a production conversational AI agent using RAG + AWS Bedrock (Claude) that autonomously resolves seller claims, eliminating hours of manual review per case</li>
+                        <li>Designed multi-step <strong style="color: #a8b2d1;">agentic workflows</strong> that reason over seller documents, invoke APIs, and produce structured decisions — reducing claims processing time by 40%</li>
+                        <li>Built and deployed <strong style="color: #a8b2d1;">AI infrastructure on AWS</strong>: vector stores (OpenSearch), prompt pipelines, LLM evaluation harnesses, and observability for hallucination detection</li>
+                        <li>Migrated high-throughput email notification service handling 250K+ monthly events to event-driven AWS architecture (SNS/SQS/Lambda)</li>
+                        <li>Redesigned seller feedback system (Java, React) increasing positive feedback rate by 30%</li>
                     </ul>
                 </div>
             </div>
@@ -128,25 +137,14 @@
             <div class="col-12">
                 <div class="card">
                     <h3 class="card-title">Northeastern University</h3>
-                    <p class="card-location">Software Engineer • Boston, MA</p>
+                    <p class="card-location">Research Engineer • Boston, MA</p>
                     <ul class="card-list">
-                        <li>Built text search engine with web crawler and Elasticsearch</li>
-                        <li>Implemented PageRank algorithm using PySpark for search relevance</li>
+                        <li>Built a large-scale text search engine with custom web crawler, inverted index, and Elasticsearch — processing millions of documents</li>
+                        <li>Implemented distributed <strong style="color: #a8b2d1;">PageRank</strong> using PySpark on a cluster; explored graph-based relevance algorithms foundational to modern LLM re-ranking</li>
                     </ul>
                 </div>
             </div>
 
-            <div class="col-12">
-                <div class="card">
-                    <h3 class="card-title">BroSoft System</h3>
-                    <p class="card-location">Software Engineer • Kota, India</p>
-                    <ul class="card-list">
-                        <li>Built reservation system with RESTful APIs (Spring Boot) and real-time updates (React)</li>
-                        <li>Developed interview platform with video streaming and AI-powered resume scoring (BERT)</li>
-                        <li>Implemented CI/CD pipeline with Jenkins</li>
-                    </ul>
-                </div>
-            </div>
         </div>
     </div>
     <!-- Experience Ends -->
@@ -188,44 +186,44 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="card">
+                    <h3 class="card-title">Multi-Agent Research Assistant</h3>
+                    <p class="card-tech">Python, LangChain, Claude API, RAG</p>
+                    <ul class="card-list">
+                        <li>Agentic AI system with planning, tool-use, and memory — agents decompose research goals into subtasks and self-correct on failure</li>
+                        <li>RAG pipeline with semantic chunking, hybrid search (BM25 + embeddings), and citation grounding</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card">
+                    <h3 class="card-title">LLM Evaluation Harness</h3>
+                    <p class="card-tech">Python, AWS Bedrock, OpenAI API</p>
+                    <ul class="card-list">
+                        <li>Automated framework for evaluating LLM outputs across factuality, faithfulness, and instruction-following using LLM-as-judge</li>
+                        <li>Multi-provider benchmarking across Claude, GPT-4, and Bedrock models with structured reporting</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card">
                     <h3 class="card-title">Distributed Key-Value Store</h3>
                     <p class="card-tech">C++</p>
                     <ul class="card-list">
-                        <li>Primary-backup state machine replication with fault tolerance</li>
-                        <li>Multithreaded load balancer with in-memory cache</li>
+                        <li>Primary-backup state machine replication with fault tolerance and leader election</li>
+                        <li>Multithreaded load balancer with in-memory cache — demonstrates systems fundamentals behind AI infrastructure</li>
                     </ul>
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="card">
-                    <h3 class="card-title">URL Shortener</h3>
-                    <p class="card-tech">Go, Redis, PostgreSQL, React</p>
+                    <h3 class="card-title">Conversational Search Engine</h3>
+                    <p class="card-tech">Python, Elasticsearch, PySpark, BERT</p>
                     <ul class="card-list">
-                        <li>REST API with Redis cache and PostgreSQL storage</li>
-                        <li>React frontend with Redux state management</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="card">
-                    <h3 class="card-title">Stock Market Simulator</h3>
-                    <p class="card-tech">Java, MVC</p>
-                    <ul class="card-list">
-                        <li>Real-time trading with AlphaVantage API integration</li>
-                        <li>MVC architecture with design patterns, 97% test coverage</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="card">
-                    <h3 class="card-title">Phishing Detector</h3>
-                    <p class="card-tech">JavaScript</p>
-                    <ul class="card-list">
-                        <li>Chrome extension detecting phishing with 90% accuracy</li>
-                        <li>Research-based URL analysis and pattern matching</li>
+                        <li>Combined traditional IR (PageRank, BM25) with neural re-ranking using BERT embeddings</li>
+                        <li>Conversational query interface with multi-turn context retention over indexed document corpus</li>
                     </ul>
                 </div>
             </div>
@@ -244,7 +242,8 @@
             <div class="col-md-6">
                 <div class="card">
                     <h3 class="card-title">Candidate Prioritization using Automated Behavioural Interview</h3>
-                    <p class="card-detail">International Conference • Deep Learning</p>
+                    <p class="card-detail">International Conference • Deep Learning & NLP</p>
+                    <p class="card-detail" style="font-size: 0.85rem; margin-top: -0.25rem;">Early work on AI-driven hiring — automated behavioural scoring using deep learning, a precursor to today's conversational AI evaluation systems</p>
                     <a href="https://www.scientific.net/AST.124.211" class="card-link" target="_blank">
                         View Paper <i class="fas fa-external-link-alt"></i>
                     </a>
@@ -255,6 +254,7 @@
                 <div class="card">
                     <h3 class="card-title">Face Recognition With Mask Using MTCNN And FaceNet</h3>
                     <p class="card-detail">IRTAC 2020 • Springer</p>
+                    <p class="card-detail" style="font-size: 0.85rem; margin-top: -0.25rem;">Real-world neural network adaptation — fine-tuned FaceNet embeddings for occluded face recognition under challenging conditions, demonstrating transfer learning and domain-specific model adaptation</p>
                     <a href="https://link.springer.com/chapter/10.1007/978-981-16-6448-9_12" class="card-link" target="_blank">
                         View Paper <i class="fas fa-external-link-alt"></i>
                     </a>
@@ -264,11 +264,41 @@
     </div>
     <!-- Papers Ends -->
 
+    <!-- Currently Section Starts -->
+    <div class="container" id="currently">
+        <h2>
+            <section id="main">
+                05. What I'm Thinking About
+            </section>
+        </h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <h3 class="card-title">Agentic AI Systems</h3>
+                    <p class="card-detail">How do you build agents that actually work in production? ReAct, tool-use, memory architectures, and why most agent demos fail at scale.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <h3 class="card-title">LLM Infrastructure on AWS</h3>
+                    <p class="card-detail">The real cost of running LLMs in production — latency vs. accuracy tradeoffs, prompt caching, Bedrock vs. self-hosted, and observability that actually catches hallucinations.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <h3 class="card-title">RAG at Scale</h3>
+                    <p class="card-detail">When naive RAG breaks — advanced retrieval (HyDE, multi-query, re-ranking), chunking strategies, and grounding LLMs in real-world enterprise data.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Currently Section Ends -->
+
     <!-- Contact Starts -->
     <div class="container" id="contact">
         <h2>
             <section id="main">
-                05. Contact
+                06. Contact
             </section>
         </h2>
         <div class="contact-content">

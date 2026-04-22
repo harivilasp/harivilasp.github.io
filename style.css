@@ -273,6 +273,26 @@ h2 section#main {
   font-size: 0.75rem;
 }
 
+/* THINKING SECTION - "What I'm Thinking About" */
+#currently .card {
+  border-left-color: rgba(100, 255, 218, 0.25);
+}
+
+#currently .card-title {
+  font-size: 1rem;
+  color: var(--green);
+}
+
+#currently .card:hover .card-title {
+  color: var(--white);
+}
+
+#currently .card-detail {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
 /* LEGACY STYLES */
 #heading3 {
   color: var(--slate);
