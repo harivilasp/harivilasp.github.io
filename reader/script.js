@@ -1,28 +1,28 @@
 import { LLM } from "./llm.js/llm.js";
 
 const MODEL_URL =
-  "https://huggingface.co/afrideva/TinyMistral-248M-Alpaca-GGUF/resolve/main/tinymistral-248m-alpaca.q4_k_m.gguf";
+  "https://huggingface.co/Qwen/Qwen2-0.5B-Instruct-GGUF/resolve/main/qwen2-0_5b-instruct-q4_0.gguf";
 
 const TOPICS = [
-  "the deep ocean and bioluminescent creatures",
-  "how black holes form and what happens near them",
-  "the history of the printing press and its impact",
-  "how trees communicate through underground fungi",
-  "the science of why the sky changes color at sunset",
-  "ancient Rome's engineering achievements",
-  "how the human immune system fights viruses",
-  "the discovery of electricity and early experiments",
-  "migration patterns of monarch butterflies",
-  "how languages evolve and change over centuries",
+  "a little dragon who is afraid of fire",
+  "a brave rabbit who finds a lost star",
+  "a friendly cloud who wants to make rain for the flowers",
+  "a puppy who learns to share his toys",
+  "a small fish who swims to the ocean for the first time",
+  "a sleepy bear who cannot find the right cave to sleep in",
+  "a kind robot who helps children cross the street",
+  "a young owl who is scared of the dark",
+  "a caterpillar who dreams of flying like a butterfly",
+  "a tiny seed who grows into the tallest tree in the forest",
 ];
 
 const BACKUP_PARAGRAPHS = [
-  "The deep ocean is one of the least explored places on Earth, yet it teems with remarkable life. Bioluminescent creatures like the anglerfish and the firefly squid produce their own light through chemical reactions. This living light serves many purposes: attracting prey, communicating with mates, and confusing predators. Scientists estimate that over ninety percent of deep-sea animals are capable of producing light.",
-  "Black holes form when massive stars exhaust their nuclear fuel and collapse under their own gravity. The resulting object is so dense that nothing, not even light, can escape once it crosses the event horizon. Despite their reputation, black holes do not roam the universe sucking up everything around them. Stars and planets near a black hole simply orbit it, much as Earth orbits the Sun.",
-  "The printing press, invented by Johannes Gutenberg around 1440, transformed the way information spread across Europe. Before its invention, books were copied by hand, making them rare and expensive. Within decades of Gutenberg's invention, millions of books were in circulation, making knowledge accessible to ordinary people for the first time. Historians credit the printing press with accelerating the Renaissance, the Reformation, and the Scientific Revolution.",
-  "Trees in a forest are connected by a vast underground network of fungi called mycorrhizae. Through this network, trees share water, nutrients, and even chemical warning signals when insects attack. Older trees, sometimes called mother trees, actively support younger seedlings by channeling sugars through the fungal web. Scientists are only beginning to understand the complexity of this silent communication system beneath our feet.",
-  "Languages are never static; they evolve constantly through contact, migration, and cultural change. Words that seem fundamentally English, like algebra, sofa, and coffee, were borrowed from Arabic. Over centuries, pronunciations shift, new words enter from other languages, and old words take on new meanings. Linguists estimate that a new word enters the English language roughly every two hours.",
-  "The human immune system is a sophisticated defense network involving billions of specialized cells. When a virus enters the body, white blood cells called lymphocytes identify it and begin producing antibodies tailored to that specific invader. Memory cells then retain a record of the pathogen so the immune system can respond faster if it ever returns. Vaccines work by training this memory system without causing the actual disease.",
+  "Once there was a little dragon named Pip who was afraid of his own fire. Every time he sneezed, tiny flames shot out and he would hide behind a rock. One day a friend showed him how to roast marshmallows with his flames, and everyone cheered. From that day on, Pip knew his fire was something special.",
+  "A brave rabbit named Rosie found a tiny star sitting on a leaf one evening. The star was lost and could not find its way back to the sky. Rosie hopped all the way to the top of the tallest hill and held the star up high. With a soft pop, the star zoomed back up and twinkled just for her.",
+  "High above the hills, a friendly cloud named Cleo wanted to help the thirsty flowers below. She puffed herself up as big as she could and let the rain fall gently down. The flowers lifted their heads and smiled in the soft shower. Cleo floated away feeling warm and happy inside.",
+  "Max the puppy had a basket full of toys, but he never let anyone play with them. One afternoon his friend Bella came over and sat quietly with nothing to do. Max looked at his toys, then at Bella, and pushed his favourite ball toward her. They played together all afternoon and Max discovered sharing was the most fun of all.",
+  "A little fish named Finn had lived in a small pond his whole life. One morning he swam through a long tunnel and came out into the enormous blue ocean. Everything was bright and wide and full of colour. Finn took a deep breath of water and smiled because adventure had finally found him.",
+  "A young owl named Oliver was afraid of the dark, which was a big problem because owls sleep in the day and wake at night. His mother showed him how the stars were tiny night lights sprinkled just for owls. Oliver looked up, saw a thousand glowing specks, and felt brave. He spread his wings and flew off into his first moonlit night.",
 ];
 
 const startBtn = document.getElementById("startBtn");
@@ -67,8 +67,23 @@ function loadFallback(reason) {
   startBtn.disabled = false;
 }
 
+const ASSISTANT_MARKER = "<|im_start|>assistant\n";
+
 function buildPrompt(topic) {
-  return `Write a single short paragraph about ${topic}. Use 3 to 4 clear sentences. Output only the paragraph.\n\n`;
+  return `<|im_start|>user\nWrite a short children's story about ${topic}. Use simple words that a 6 to 8 year old can read. Write exactly 4 sentences. Make it fun, warm, and with a happy ending. Output only the story, no title, no extra text.<|im_end|>\n${ASSISTANT_MARKER}`;
+}
+
+function extractResponse(raw, prompt) {
+  // Strip the prompt echo if the model repeated it
+  let text = raw;
+  const markerIdx = text.lastIndexOf(ASSISTANT_MARKER);
+  if (markerIdx !== -1) {
+    text = text.slice(markerIdx + ASSISTANT_MARKER.length);
+  } else if (text.startsWith(prompt)) {
+    text = text.slice(prompt.length);
+  }
+  // Remove any trailing end tokens
+  return text.replace(/<\|im_end\|>[\s\S]*$/, "").trim();
 }
 
 function prepareText(text) {
@@ -92,13 +107,16 @@ async function generateParagraph() {
   setStatus("Generating…");
   displayTextElement.textContent = "";
 
+  const prompt = buildPrompt(randomTopic());
   let generated = "";
 
   try {
     await new Promise((resolve, reject) => {
       llmEngine.write_result_callback = (token) => {
         generated += token;
-        displayTextElement.textContent = generated;
+        // Show only the clean response while streaming
+        const preview = extractResponse(generated, prompt);
+        displayTextElement.textContent = preview || "";
       };
 
       llmEngine.on_complete_callback = () => {
@@ -108,11 +126,11 @@ async function generateParagraph() {
       };
 
       llmEngine.run({
-        prompt: buildPrompt(randomTopic()),
-        max_token_len: 120,
+        prompt,
+        max_token_len: 150,
         top_k: 40,
         top_p: 0.9,
-        temp: 0.8,
+        temp: 0.7,
       });
     });
   } catch (err) {
@@ -120,9 +138,9 @@ async function generateParagraph() {
     return;
   }
 
-  const text = generated.trim();
-  if (!text) {
-    loadFallback("Model produced no output");
+  const text = extractResponse(generated, prompt);
+  if (!text || text.length < 40) {
+    loadFallback("Model produced no usable output");
     return;
   }
 
@@ -133,7 +151,7 @@ async function generateParagraph() {
 }
 
 function initModel() {
-  setStatus("Downloading model (first time only, ~156 MB)…");
+  setStatus("Downloading model (first time only, ~353 MB)…");
 
   try {
     llmEngine = new LLM(

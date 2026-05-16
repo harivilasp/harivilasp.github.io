@@ -3,37 +3,58 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Read-Along Highlighter</title>
+    <title>Story Reader — Read Aloud Practice for Kids</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./style.css" type="text/css" />
-    <!-- Vercel Web Analytics -->
     <script>
       window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
     </script>
     <script defer src="/_vercel/insights/script.js"></script>
   </head>
   <body>
-    <div id="model-status-bar">
-      <span id="model-status">Initializing model…</span>
+    <header>
+      <div class="header-icon">📖</div>
+      <h1>Story Reader</h1>
+      <p class="subtitle">Read the story out loud and watch the words light up!</p>
+    </header>
+
+    <div class="how-to">
+      <div class="step"><span class="step-num">1</span> Press <strong>New Story</strong> to get a story</div>
+      <div class="step"><span class="step-num">2</span> Press <strong>Start Reading</strong> and read aloud</div>
+      <div class="step"><span class="step-num">3</span> Watch words <span class="highlight-demo">glow</span> as you say them!</div>
     </div>
 
-    <div id="text-container">
-      <p id="display-text">Waiting for model…</p>
+    <div id="model-status-bar">
+      <span id="model-status">Starting up…</span>
     </div>
-    <div id="highlighted-container">
-      <h3>Highlighted Text:</h3>
+
+    <div class="card" id="story-card">
+      <div class="card-label">Story</div>
+      <p id="display-text">Getting your story ready…</p>
+    </div>
+
+    <div class="card" id="highlight-card">
+      <div class="card-label">Words you've read</div>
       <p id="highlighted-text"></p>
     </div>
-    <div id="meaning-container">
-      <h3>Word Meaning:</h3>
-      <p id="word-meaning"></p>
+
+    <div class="card" id="meaning-card">
+      <div class="card-label">Word meaning</div>
+      <p id="word-meaning">Select a word and press "Pronounce" to hear it and see what it means.</p>
     </div>
-    <div id="transcript-container">
-      <h3>Transcript:</h3>
+
+    <div class="card" id="transcript-card">
+      <div class="card-label">What the mic heard</div>
       <p id="transcript"></p>
     </div>
-    <button id="pronounceBtn">Pronounce Selected Word</button>
-    <button id="startBtn" disabled>Start Reading</button>
-    <button id="newParagraphBtn" disabled>New Paragraph</button>
+
+    <div class="button-row">
+      <button id="pronounceBtn" class="btn btn-secondary">🔊 Pronounce Word</button>
+      <button id="startBtn" class="btn btn-primary" disabled>▶ Start Reading</button>
+      <button id="newParagraphBtn" class="btn btn-accent" disabled>✨ New Story</button>
+    </div>
 
     <script type="module" src="script.js"></script>
   </body>
