@@ -36,6 +36,7 @@ const modelStatus = document.getElementById("model-status");
 let words = [];
 let wordCount = 0;
 let highlightedIndex = 0;
+let spokenIdx = 0;
 let debugText = "";
 let modelReady = false;
 let llmEngine = null;
@@ -74,16 +75,26 @@ function buildPrompt(topic) {
 }
 
 function extractResponse(raw, prompt) {
-  // Strip the prompt echo if the model repeated it
   let text = raw;
-  const markerIdx = text.lastIndexOf(ASSISTANT_MARKER);
-  if (markerIdx !== -1) {
-    text = text.slice(markerIdx + ASSISTANT_MARKER.length);
+  // Try full Qwen marker first, then bare "assistant" echo, then prompt prefix
+  const fullMarkerIdx = text.lastIndexOf(ASSISTANT_MARKER);
+  const bareMarkerIdx = text.lastIndexOf("assistant\n");
+  if (fullMarkerIdx !== -1) {
+    text = text.slice(fullMarkerIdx + ASSISTANT_MARKER.length);
+  } else if (bareMarkerIdx !== -1) {
+    text = text.slice(bareMarkerIdx + "assistant\n".length);
   } else if (text.startsWith(prompt)) {
     text = text.slice(prompt.length);
   }
-  // Remove any trailing end tokens
-  return text.replace(/<\|im_end\|>[\s\S]*$/, "").trim();
+  text = text.replace(/<\|im_end\|>[\s\S]*$/, "").trim();
+  return limitToSentences(text, 4);
+}
+
+function limitToSentences(text, max) {
+  // Split on sentence-ending punctuation followed by whitespace or end of string
+  const matches = text.match(/[^.!?]*[.!?]+(\s|$)/g);
+  if (!matches) return text;
+  return matches.slice(0, max).join("").trim();
 }
 
 function prepareText(text) {
@@ -127,10 +138,10 @@ async function generateParagraph() {
 
       llmEngine.run({
         prompt,
-        max_token_len: 150,
+        max_token_len: 200,
         top_k: 40,
         top_p: 0.9,
-        temp: 0.7,
+        temp: 0.6,
       });
     });
   } catch (err) {
@@ -248,17 +259,19 @@ recognition.onresult = (event) => {
     .map((r) => r[0].transcript)
     .join(" ");
   transcriptElement.textContent = transcript;
-  const spoken = transcript.toLowerCase().split(" ");
-  for (let i = highlightedIndex; i <= Math.min(spoken.length, wordCount); i++) {
-    if (levenshteinDistance(spoken[i], words[highlightedIndex]) <= 2) {
+  const spoken = transcript.toLowerCase().trim().split(/\s+/).filter(w => w);
+  while (spokenIdx < spoken.length && highlightedIndex < wordCount) {
+    if (levenshteinDistance(spoken[spokenIdx], words[highlightedIndex]) <= 2) {
       highlightedText.innerHTML += `<span class="highlight">${words[highlightedIndex]}</span> `;
       debugText += " " + words[highlightedIndex];
       highlightedIndex++;
     }
+    spokenIdx++;
   }
 };
 
 recognition.onend = () => {
+  spokenIdx = 0;
   if (startBtn.textContent === "Stop Reading") recognition.start();
 };
 
