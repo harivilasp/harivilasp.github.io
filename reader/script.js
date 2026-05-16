@@ -74,17 +74,19 @@ function buildPrompt(topic) {
   return `<|im_start|>user\nWrite a short children's story about ${topic}. Use simple words that a 6 to 8 year old can read. Write exactly 4 sentences. Make it fun, warm, and with a happy ending. Output only the story, no title, no extra text.<|im_end|>\n${ASSISTANT_MARKER}`;
 }
 
-function extractResponse(raw, prompt) {
+function extractResponse(raw, prompt, streaming = false) {
   let text = raw;
-  // Try full Qwen marker first, then bare "assistant" echo, then prompt prefix
   const fullMarkerIdx = text.lastIndexOf(ASSISTANT_MARKER);
-  const bareMarkerIdx = text.lastIndexOf("assistant\n");
+  // Look for "\nassistant" — the \n before "assistant" is reliable even when the trailing \n is a separate token
+  const bareMarkerIdx = text.lastIndexOf("\nassistant");
   if (fullMarkerIdx !== -1) {
     text = text.slice(fullMarkerIdx + ASSISTANT_MARKER.length);
   } else if (bareMarkerIdx !== -1) {
-    text = text.slice(bareMarkerIdx + "assistant\n".length);
+    text = text.slice(bareMarkerIdx + "\nassistant".length).replace(/^\n/, "");
   } else if (text.startsWith(prompt)) {
     text = text.slice(prompt.length);
+  } else if (streaming) {
+    return "";
   }
   text = text.replace(/<\|im_end\|>[\s\S]*$/, "").trim();
   return limitToSentences(text, 4);
@@ -126,7 +128,7 @@ async function generateParagraph() {
       llmEngine.write_result_callback = (token) => {
         generated += token;
         // Show only the clean response while streaming
-        const preview = extractResponse(generated, prompt);
+        const preview = extractResponse(generated, prompt, true);
         displayTextElement.textContent = preview || "";
       };
 
