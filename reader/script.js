@@ -1,28 +1,40 @@
-import { LLM } from "./llm.js/llm.js";
+const STORIES = [
+  `In a small village surrounded by lush green forests, there lived a young girl named Sophia. She was known for her exceptional kindness and warm smile that could brighten up anyone's day. Sophia spent most of her days helping her mother with household chores and exploring the woods, discovering new species of flowers and birds.
 
-const MODEL_URL =
-  "https://huggingface.co/Qwen/Qwen2-0.5B-Instruct-GGUF/resolve/main/qwen2-0_5b-instruct-q4_0.gguf";
+One day, while wandering deeper into the forest than she had ever been before, Sophia stumbled upon a hidden clearing. In the center of the clearing stood an enormous tree, its trunk twisted and gnarled with age. As she approached the tree, she noticed a small door carved into the trunk. The door was slightly ajar, inviting her to enter.
 
-const TOPICS = [
-  "a little dragon who is afraid of fire",
-  "a brave rabbit who finds a lost star",
-  "a friendly cloud who wants to make rain for the flowers",
-  "a puppy who learns to share his toys",
-  "a small fish who swims to the ocean for the first time",
-  "a sleepy bear who cannot find the right cave to sleep in",
-  "a kind robot who helps children cross the street",
-  "a young owl who is scared of the dark",
-  "a caterpillar who dreams of flying like a butterfly",
-  "a tiny seed who grows into the tallest tree in the forest",
-];
+Sophia's curiosity got the better of her, and she pushed the door open. Inside, she found a cozy room filled with books, strange artifacts, and a beautiful wooden desk. An old man with a long white beard and spectacles looked up from the book he was reading and smiled at Sophia.
 
-const BACKUP_PARAGRAPHS = [
-  "Once there was a little dragon named Pip who was afraid of his own fire. Every time he sneezed, tiny flames shot out and he would hide behind a rock. One day a friend showed him how to roast marshmallows with his flames, and everyone cheered. From that day on, Pip knew his fire was something special.",
-  "A brave rabbit named Rosie found a tiny star sitting on a leaf one evening. The star was lost and could not find its way back to the sky. Rosie hopped all the way to the top of the tallest hill and held the star up high. With a soft pop, the star zoomed back up and twinkled just for her.",
-  "High above the hills, a friendly cloud named Cleo wanted to help the thirsty flowers below. She puffed herself up as big as she could and let the rain fall gently down. The flowers lifted their heads and smiled in the soft shower. Cleo floated away feeling warm and happy inside.",
-  "Max the puppy had a basket full of toys, but he never let anyone play with them. One afternoon his friend Bella came over and sat quietly with nothing to do. Max looked at his toys, then at Bella, and pushed his favourite ball toward her. They played together all afternoon and Max discovered sharing was the most fun of all.",
-  "A little fish named Finn had lived in a small pond his whole life. One morning he swam through a long tunnel and came out into the enormous blue ocean. Everything was bright and wide and full of colour. Finn took a deep breath of water and smiled because adventure had finally found him.",
-  "A young owl named Oliver was afraid of the dark, which was a big problem because owls sleep in the day and wake at night. His mother showed him how the stars were tiny night lights sprinkled just for owls. Oliver looked up, saw a thousand glowing specks, and felt brave. He spread his wings and flew off into his first moonlit night.",
+"Welcome, young one," he said. "I have been expecting you. My name is Professor Everwood, and I have been waiting for someone with a heart full of kindness and a thirst for knowledge to come and find me."
+
+Sophia spent the next few weeks learning from Professor Everwood, discovering the secrets of the forest and the magic that lay within. As she delved deeper into the world of knowledge, Sophia realized that she had a special gift: the ability to communicate with animals.
+
+With Professor Everwood's guidance, Sophia learned to harness her gift and use it to help those in need. She helped a family of baby birds find their way back to their nest, assisted a lost fawn in reuniting with its mother, and even aided a group of bees in finding a new home.
+
+As the days turned into weeks, Sophia's reputation as an animal whisperer spread throughout the village. People would come from all over to seek her help, and Sophia was happy to oblige. She had found her true calling, and with Professor Everwood by her side, she knew that she could make a real difference in the world.`,
+  `In a small village surrounded by rolling hills and dense forests, there lived a young girl named Sophia. She was known throughout the village for her extraordinary gift: the ability to communicate with animals. Sophia's days were filled with adventures as she explored the woods, played with the creatures, and learned about their lives.
+
+One sunny afternoon, Sophia wandered deeper into the forest than ever before and found a hidden clearing. In its center stood an enormous tree with branches twisted and gnarled with age. As Sophia approached, she heard the tree whisper her name.
+
+"Sophia, I have been waiting for you," the tree said. "I possess a secret that has been hidden for centuries. Are you brave enough to hear it?"
+
+Sophia nodded eagerly. The tree told her about ancient magic and a world where animals and humans lived together in harmony. As she listened, Sophia felt as if the secrets of the whole forest were opening before her.
+
+From that day on, Sophia spent every spare moment learning from the ancient tree and helping the creatures of the forest. Years later, she became its respected guardian, known and loved by everyone who lived within its green boundaries.`,
+  `In a small village surrounded by rolling hills and dense forests, there lived a young girl named Sophia. She was known for her exceptional kindness and her love for nature. Sophia spent most of her days exploring the woods and learning about the plants and animals that lived there.
+
+One day, Sophia found a hidden clearing with an enormous tree covered in shimmering lights. A soft voice came from the tree and told her that a terrible drought had placed the forest in danger. To save it, Sophia would have to find a magical spring hidden deep in the mountains.
+
+Without hesitation, Sophia set off on the journey. The air grew thin and the wind grew cold as she climbed, but she kept going. At last she reached the spring, filled a small vial with its crystal-clear water, and hurried home.
+
+As Sophia returned, green leaves opened and animals came back to their homes. The ancient tree thanked her and named her guardian of the forest. Sophia continued to protect the woods with knowledge and kindness for many years.`,
+  `As the sun set over the small town of Willow Creek, a young girl named Lily walked along the riverbank, lost in thought. She loved this time of day, when the sky turned pink and the first stars began to shine.
+
+That morning, Lily had received a letter from an art school in the city. It offered her a scholarship, but accepting it meant leaving her family and friends. She had always dreamed of becoming an artist, yet the choice still frightened her.
+
+While walking, Lily found a small wooden boat hidden in the reeds. She pushed it into the water, climbed aboard, and let the river carry her beneath the evening sky. As the boat drifted, a calm feeling washed over her.
+
+Lily understood that she could love her home and still follow her dream. By the time she returned to the riverbank, the stars were shining brightly and her mind was clear. She walked back into town ready to face the future.`,
 ];
 
 const startBtn = document.getElementById("startBtn");
@@ -37,66 +49,21 @@ let words = [];
 let wordCount = 0;
 let highlightedIndex = 0;
 let spokenIdx = 0;
-let debugText = "";
-let modelReady = false;
-let llmEngine = null;
-let usedBackupIndices = [];
+let usedStoryIndices = [];
 
-function setStatus(msg, ok = null) {
-  modelStatus.textContent = msg;
+function setStatus(message, ok = null) {
+  modelStatus.textContent = message;
   modelStatus.style.color = ok === true ? "#4caf50" : ok === false ? "#e53935" : "#555";
 }
 
-function randomTopic() {
-  return TOPICS[Math.floor(Math.random() * TOPICS.length)];
-}
-
-function fallbackParagraph() {
-  if (usedBackupIndices.length === BACKUP_PARAGRAPHS.length) usedBackupIndices = [];
-  const remaining = BACKUP_PARAGRAPHS
-    .map((_, i) => i)
-    .filter((i) => !usedBackupIndices.includes(i));
+function nextStory() {
+  if (usedStoryIndices.length === STORIES.length) usedStoryIndices = [];
+  const remaining = STORIES
+    .map((_, index) => index)
+    .filter((index) => !usedStoryIndices.includes(index));
   const pick = remaining[Math.floor(Math.random() * remaining.length)];
-  usedBackupIndices.push(pick);
-  return BACKUP_PARAGRAPHS[pick];
-}
-
-function loadFallback(reason) {
-  setStatus(`${reason} — showing offline text`, false);
-  prepareText(fallbackParagraph());
-  newParagraphBtn.disabled = false;
-  startBtn.disabled = false;
-}
-
-const ASSISTANT_MARKER = "<|im_start|>assistant\n";
-
-function buildPrompt(topic) {
-  return `<|im_start|>user\nWrite a short children's story about ${topic}. Use simple words that a 6 to 8 year old can read. Write exactly 4 sentences. Make it fun, warm, and with a happy ending. Output only the story, no title, no extra text.<|im_end|>\n${ASSISTANT_MARKER}`;
-}
-
-function extractResponse(raw, prompt, streaming = false) {
-  let text = raw;
-  const fullMarkerIdx = text.lastIndexOf(ASSISTANT_MARKER);
-  // Look for "\nassistant" — the \n before "assistant" is reliable even when the trailing \n is a separate token
-  const bareMarkerIdx = text.lastIndexOf("\nassistant");
-  if (fullMarkerIdx !== -1) {
-    text = text.slice(fullMarkerIdx + ASSISTANT_MARKER.length);
-  } else if (bareMarkerIdx !== -1) {
-    text = text.slice(bareMarkerIdx + "\nassistant".length).replace(/^\n/, "");
-  } else if (text.startsWith(prompt)) {
-    text = text.slice(prompt.length);
-  } else if (streaming) {
-    return "";
-  }
-  text = text.replace(/<\|im_end\|>[\s\S]*$/, "").trim();
-  return limitToSentences(text, 4);
-}
-
-function limitToSentences(text, max) {
-  // Split on sentence-ending punctuation followed by whitespace or end of string
-  const matches = text.match(/[^.!?]*[.!?]+(\s|$)/g);
-  if (!matches) return text;
-  return matches.slice(0, max).join("").trim();
+  usedStoryIndices.push(pick);
+  return STORIES[pick];
 }
 
 function prepareText(text) {
@@ -109,103 +76,54 @@ function prepareText(text) {
   words = clean.split(" ");
   wordCount = words.length;
   highlightedIndex = 0;
-  debugText = "";
-  highlightedText.innerHTML = "";
+  spokenIdx = 0;
+  highlightedText.textContent = "";
   transcriptElement.textContent = "";
 }
 
-async function generateParagraph() {
+function showNextStory() {
+  setStatus("Story ready", true);
+  prepareText(nextStory());
+  newParagraphBtn.disabled = false;
+  startBtn.disabled = !recognition;
+}
+
+function generateParagraph() {
   newParagraphBtn.disabled = true;
   startBtn.disabled = true;
-  setStatus("Generating…");
-  displayTextElement.textContent = "";
-
-  const prompt = buildPrompt(randomTopic());
-  let generated = "";
-
-  try {
-    await new Promise((resolve, reject) => {
-      llmEngine.write_result_callback = (token) => {
-        generated += token;
-        // Show only the clean response while streaming
-        const preview = extractResponse(generated, prompt, true);
-        displayTextElement.textContent = preview || "";
-      };
-
-      llmEngine.on_complete_callback = () => {
-        llmEngine.write_result_callback = () => {};
-        llmEngine.on_complete_callback = () => {};
-        resolve();
-      };
-
-      llmEngine.run({
-        prompt,
-        max_token_len: 200,
-        top_k: 40,
-        top_p: 0.9,
-        temp: 0.6,
-      });
-    });
-  } catch (err) {
-    loadFallback("Generation error");
-    return;
-  }
-
-  const text = extractResponse(generated, prompt);
-  if (!text || text.length < 40) {
-    loadFallback("Model produced no usable output");
-    return;
-  }
-
-  prepareText(text);
-  setStatus("Model ready", true);
-  newParagraphBtn.disabled = false;
-  startBtn.disabled = false;
+  setStatus("Choosing a story…");
+  window.setTimeout(showNextStory, 150);
 }
 
-function initModel() {
-  setStatus("Downloading model (first time only, ~353 MB)…");
-
-  try {
-    llmEngine = new LLM(
-      "GGUF_CPU",
-      MODEL_URL,
-      () => {
-        modelReady = true;
-        setStatus("Model ready — generating first paragraph…", true);
-        generateParagraph();
-      },
-      () => {},
-      () => {}
-    );
-
-    llmEngine.load_worker();
-  } catch (err) {
-    loadFallback("Model failed to load");
-  }
-}
-
-// Speech recognition setup
 const SpeechRecognition =
   window.SpeechRecognition || window.webkitSpeechRecognition;
-const recognition = new SpeechRecognition();
-recognition.lang = "en-US";
-recognition.interimResults = true;
-recognition.continuous = true;
+const recognition = SpeechRecognition ? new SpeechRecognition() : null;
+
+if (recognition) {
+  recognition.lang = "en-US";
+  recognition.interimResults = true;
+  recognition.continuous = true;
+} else {
+  startBtn.title = "Speech recognition is not supported in this browser";
+}
 
 function levenshteinDistance(a, b) {
   if (!a) return b.length;
   if (!b) return a.length;
   a = a.toLowerCase();
   b = b.toLowerCase();
-  const matrix = Array.from({ length: b.length + 1 }, (_, i) => [i]);
-  for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
-  for (let i = 1; i <= b.length; i++) {
-    for (let j = 1; j <= a.length; j++) {
-      matrix[i][j] =
-        b[i - 1] === a[j - 1]
-          ? matrix[i - 1][j - 1]
-          : Math.min(matrix[i - 1][j - 1] + 1, matrix[i][j - 1] + 1, matrix[i - 1][j] + 1);
+  const matrix = Array.from({ length: b.length + 1 }, (_, index) => [index]);
+  for (let index = 0; index <= a.length; index++) matrix[0][index] = index;
+  for (let row = 1; row <= b.length; row++) {
+    for (let column = 1; column <= a.length; column++) {
+      matrix[row][column] =
+        b[row - 1] === a[column - 1]
+          ? matrix[row - 1][column - 1]
+          : Math.min(
+              matrix[row - 1][column - 1] + 1,
+              matrix[row][column - 1] + 1,
+              matrix[row - 1][column] + 1
+            );
     }
   }
   return matrix[b.length][a.length];
@@ -213,13 +131,16 @@ function levenshteinDistance(a, b) {
 
 async function fetchWordMeaning(word) {
   try {
-    const res = await fetch(
-      `https://api.dictionaryapi.dev/api/v2/entries/en/${word.toLowerCase()}`
+    const response = await fetch(
+      `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word.toLowerCase())}`
     );
-    const data = await res.json();
+    const data = await response.json();
     if (Array.isArray(data) && data.length > 0) {
       return data[0].meanings
-        .map((m) => `<strong>${m.partOfSpeech}:</strong> ${m.definitions[0].definition}`)
+        .map(
+          (meaning) =>
+            `<strong>${meaning.partOfSpeech}:</strong> ${meaning.definitions[0].definition}`
+        )
         .join("<br>");
     }
     return "No definition found.";
@@ -229,52 +150,54 @@ async function fetchWordMeaning(word) {
 }
 
 startBtn.addEventListener("click", () => {
-  if (startBtn.textContent === "Start Reading") {
+  if (!recognition) return;
+  if (startBtn.textContent.includes("Start Reading")) {
     recognition.start();
-    startBtn.textContent = "Stop Reading";
+    startBtn.textContent = "■ Stop Reading";
   } else {
     recognition.stop();
-    startBtn.textContent = "Start Reading";
+    startBtn.textContent = "▶ Start Reading";
   }
 });
 
 newParagraphBtn.addEventListener("click", () => {
-  recognition.stop();
-  startBtn.textContent = "Start Reading";
-  if (modelReady) {
-    generateParagraph();
-  } else {
-    loadFallback("Model unavailable");
-  }
+  recognition?.stop();
+  startBtn.textContent = "▶ Start Reading";
+  generateParagraph();
 });
 
 pronounceBtn.addEventListener("click", async () => {
   const word = window.getSelection().toString().trim();
-  if (word) {
-    window.speechSynthesis.speak(new SpeechSynthesisUtterance(word));
-    document.getElementById("word-meaning").innerHTML = await fetchWordMeaning(word);
-  }
+  if (!word) return;
+
+  window.speechSynthesis.speak(new SpeechSynthesisUtterance(word));
+  document.getElementById("word-meaning").innerHTML = await fetchWordMeaning(word);
 });
 
-recognition.onresult = (event) => {
-  const transcript = Array.from(event.results)
-    .map((r) => r[0].transcript)
-    .join(" ");
-  transcriptElement.textContent = transcript;
-  const spoken = transcript.toLowerCase().trim().split(/\s+/).filter(w => w);
-  while (spokenIdx < spoken.length && highlightedIndex < wordCount) {
-    if (levenshteinDistance(spoken[spokenIdx], words[highlightedIndex]) <= 2) {
-      highlightedText.innerHTML += `<span class="highlight">${words[highlightedIndex]}</span> `;
-      debugText += " " + words[highlightedIndex];
-      highlightedIndex++;
+if (recognition) {
+  recognition.onresult = (event) => {
+    const transcript = Array.from(event.results)
+      .map((result) => result[0].transcript)
+      .join(" ");
+    transcriptElement.textContent = transcript;
+    const spoken = transcript.toLowerCase().trim().split(/\s+/).filter(Boolean);
+
+    while (spokenIdx < spoken.length && highlightedIndex < wordCount) {
+      if (levenshteinDistance(spoken[spokenIdx], words[highlightedIndex]) <= 2) {
+        const highlightedWord = document.createElement("span");
+        highlightedWord.className = "highlight";
+        highlightedWord.textContent = words[highlightedIndex];
+        highlightedText.append(highlightedWord, " ");
+        highlightedIndex++;
+      }
+      spokenIdx++;
     }
-    spokenIdx++;
-  }
-};
+  };
 
-recognition.onend = () => {
-  spokenIdx = 0;
-  if (startBtn.textContent === "Stop Reading") recognition.start();
-};
+  recognition.onend = () => {
+    spokenIdx = 0;
+    if (startBtn.textContent.includes("Stop Reading")) recognition.start();
+  };
+}
 
-initModel();
+generateParagraph();
