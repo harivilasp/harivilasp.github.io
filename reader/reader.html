@@ -8,10 +8,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./style.css" type="text/css" />
-    <script>
-      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-    </script>
-    <script defer src="/_vercel/insights/script.js"></script>
   </head>
   <body>
     <header>
@@ -23,7 +19,7 @@
     <div class="how-to">
       <div class="step"><span class="step-num">1</span> Press <strong>New Story</strong> to get a story</div>
       <div class="step"><span class="step-num">2</span> Press <strong>Start Reading</strong> and read aloud</div>
-      <div class="step"><span class="step-num">3</span> Watch words <span class="highlight-demo">glow</span> as you say them!</div>
+      <div class="step"><span class="step-num">3</span> Green is correct; red needs another try</div>
     </div>
 
     <div id="model-status-bar">
@@ -31,13 +27,20 @@
     </div>
 
     <div class="card" id="story-card">
-      <div class="card-label">Story</div>
+      <div class="story-toolbar">
+        <div class="card-label">Read aloud</div>
+        <div class="reading-score" aria-live="polite">
+          <span id="correct-count">0</span> correct
+          <span class="score-divider">•</span>
+          <span id="missed-count">0</span> mistakes
+        </div>
+      </div>
       <p id="display-text">Getting your story ready…</p>
-    </div>
-
-    <div class="card" id="highlight-card">
-      <div class="card-label">Words you've read</div>
-      <p id="highlighted-text"></p>
+      <div class="reading-legend" aria-label="Reading feedback colors">
+        <span><i class="legend-dot legend-current"></i>Next word</span>
+        <span><i class="legend-dot legend-correct"></i>Correct</span>
+        <span><i class="legend-dot legend-missed"></i>Try again</span>
+      </div>
     </div>
 
     <div class="card" id="meaning-card">
@@ -52,6 +55,7 @@
 
     <div class="button-row">
       <button id="pronounceBtn" class="btn btn-secondary">🔊 Pronounce Word</button>
+      <button id="restartBtn" class="btn btn-secondary">↻ Start Over</button>
       <button id="startBtn" class="btn btn-primary" disabled>▶ Start Reading</button>
       <button id="newParagraphBtn" class="btn btn-accent" disabled>✨ New Story</button>
     </div>

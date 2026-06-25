@@ -1,3 +1,5 @@
+import { findMatchOffset, normalizeWord } from "./matcher.js";
+
 const STORIES = [
   `In a small village surrounded by lush green forests, there lived a young girl named Sophia. She was known for her exceptional kindness and warm smile that could brighten up anyone's day. Sophia spent most of her days helping her mother with household chores and exploring the woods, discovering new species of flowers and birds.
 
@@ -40,15 +42,19 @@ Lily understood that she could love her home and still follow her dream. By the 
 const startBtn = document.getElementById("startBtn");
 const newParagraphBtn = document.getElementById("newParagraphBtn");
 const pronounceBtn = document.getElementById("pronounceBtn");
+const restartBtn = document.getElementById("restartBtn");
 const transcriptElement = document.getElementById("transcript");
-const highlightedText = document.getElementById("highlighted-text");
 const displayTextElement = document.getElementById("display-text");
 const modelStatus = document.getElementById("model-status");
+const correctCountElement = document.getElementById("correct-count");
+const missedCountElement = document.getElementById("missed-count");
 
-let words = [];
-let wordCount = 0;
-let highlightedIndex = 0;
-let spokenIdx = 0;
+let expectedWords = [];
+let wordElements = [];
+let nextWordIndex = 0;
+let correctWordIndexes = new Set();
+let mistakenWordIndexes = new Set();
+let processedFinalResults = new Set();
 let usedStoryIndices = [];
 
 function setStatus(message, ok = null) {
@@ -67,18 +73,82 @@ function nextStory() {
 }
 
 function prepareText(text) {
-  displayTextElement.textContent = text;
-  const clean = text
-    .replace(/[^\w\s]|_/g, " ")
-    .replace(/\s+/g, " ")
-    .toLowerCase()
-    .trim();
-  words = clean.split(" ");
-  wordCount = words.length;
-  highlightedIndex = 0;
-  spokenIdx = 0;
-  highlightedText.textContent = "";
+  displayTextElement.replaceChildren();
+  expectedWords = [];
+  wordElements = [];
+
+  const wordPattern = /[\p{L}\p{N}]+(?:[’'][\p{L}\p{N}]+)*/gu;
+  let previousEnd = 0;
+
+  for (const match of text.matchAll(wordPattern)) {
+    displayTextElement.append(text.slice(previousEnd, match.index));
+
+    const wordElement = document.createElement("span");
+    wordElement.className = "story-word";
+    wordElement.textContent = match[0];
+    wordElement.dataset.wordIndex = String(expectedWords.length);
+    displayTextElement.append(wordElement);
+
+    expectedWords.push(normalizeWord(match[0]));
+    wordElements.push(wordElement);
+    previousEnd = match.index + match[0].length;
+  }
+
+  displayTextElement.append(text.slice(previousEnd));
   transcriptElement.textContent = "";
+  resetReadingProgress();
+}
+
+function resetReadingProgress() {
+  nextWordIndex = 0;
+  correctWordIndexes = new Set();
+  mistakenWordIndexes = new Set();
+  processedFinalResults = new Set();
+  wordElements.forEach((element) => {
+    element.classList.remove("correct", "missed", "current");
+  });
+  updateReadingDisplay();
+}
+
+function updateReadingDisplay() {
+  wordElements.forEach((element, index) => {
+    element.classList.toggle("correct", correctWordIndexes.has(index));
+    element.classList.toggle(
+      "missed",
+      mistakenWordIndexes.has(index) && !correctWordIndexes.has(index)
+    );
+    element.classList.toggle("current", index === nextWordIndex);
+  });
+  correctCountElement.textContent = String(correctWordIndexes.size);
+  missedCountElement.textContent = String(mistakenWordIndexes.size);
+}
+
+function processSpokenWords(spokenWords) {
+  for (const spokenWord of spokenWords) {
+    if (nextWordIndex >= expectedWords.length) break;
+
+    const offset = findMatchOffset(spokenWord, expectedWords, nextWordIndex);
+    if (offset === -1) {
+      mistakenWordIndexes.add(nextWordIndex);
+      continue;
+    }
+
+    for (let index = nextWordIndex; index < nextWordIndex + offset; index++) {
+      mistakenWordIndexes.add(index);
+    }
+
+    const matchedIndex = nextWordIndex + offset;
+    correctWordIndexes.add(matchedIndex);
+    nextWordIndex = matchedIndex + 1;
+  }
+
+  updateReadingDisplay();
+
+  if (nextWordIndex >= expectedWords.length) {
+    setStatus("Story complete!", true);
+    recognition?.stop();
+    startBtn.textContent = "▶ Start Reading";
+  }
 }
 
 function showNextStory() {
@@ -107,28 +177,6 @@ if (recognition) {
   startBtn.title = "Speech recognition is not supported in this browser";
 }
 
-function levenshteinDistance(a, b) {
-  if (!a) return b.length;
-  if (!b) return a.length;
-  a = a.toLowerCase();
-  b = b.toLowerCase();
-  const matrix = Array.from({ length: b.length + 1 }, (_, index) => [index]);
-  for (let index = 0; index <= a.length; index++) matrix[0][index] = index;
-  for (let row = 1; row <= b.length; row++) {
-    for (let column = 1; column <= a.length; column++) {
-      matrix[row][column] =
-        b[row - 1] === a[column - 1]
-          ? matrix[row - 1][column - 1]
-          : Math.min(
-              matrix[row - 1][column - 1] + 1,
-              matrix[row][column - 1] + 1,
-              matrix[row - 1][column] + 1
-            );
-    }
-  }
-  return matrix[b.length][a.length];
-}
-
 async function fetchWordMeaning(word) {
   try {
     const response = await fetch(
@@ -152,11 +200,15 @@ async function fetchWordMeaning(word) {
 startBtn.addEventListener("click", () => {
   if (!recognition) return;
   if (startBtn.textContent.includes("Start Reading")) {
+    if (nextWordIndex >= expectedWords.length) resetReadingProgress();
+    processedFinalResults.clear();
     recognition.start();
     startBtn.textContent = "■ Stop Reading";
+    setStatus("Listening…");
   } else {
     recognition.stop();
     startBtn.textContent = "▶ Start Reading";
+    setStatus("Reading paused");
   }
 });
 
@@ -164,6 +216,14 @@ newParagraphBtn.addEventListener("click", () => {
   recognition?.stop();
   startBtn.textContent = "▶ Start Reading";
   generateParagraph();
+});
+
+restartBtn.addEventListener("click", () => {
+  recognition?.stop();
+  startBtn.textContent = "▶ Start Reading";
+  transcriptElement.textContent = "";
+  resetReadingProgress();
+  setStatus("Ready to start again", true);
 });
 
 pronounceBtn.addEventListener("click", async () => {
@@ -180,23 +240,25 @@ if (recognition) {
       .map((result) => result[0].transcript)
       .join(" ");
     transcriptElement.textContent = transcript;
-    const spoken = transcript.toLowerCase().trim().split(/\s+/).filter(Boolean);
 
-    while (spokenIdx < spoken.length && highlightedIndex < wordCount) {
-      if (levenshteinDistance(spoken[spokenIdx], words[highlightedIndex]) <= 2) {
-        const highlightedWord = document.createElement("span");
-        highlightedWord.className = "highlight";
-        highlightedWord.textContent = words[highlightedIndex];
-        highlightedText.append(highlightedWord, " ");
-        highlightedIndex++;
-      }
-      spokenIdx++;
+    for (let index = 0; index < event.results.length; index++) {
+      const result = event.results[index];
+      if (!result.isFinal || processedFinalResults.has(index)) continue;
+
+      const spokenWords = result[0].transcript
+        .split(/\s+/)
+        .map(normalizeWord)
+        .filter(Boolean);
+      processSpokenWords(spokenWords);
+      processedFinalResults.add(index);
     }
   };
 
   recognition.onend = () => {
-    spokenIdx = 0;
-    if (startBtn.textContent.includes("Stop Reading")) recognition.start();
+    if (startBtn.textContent.includes("Stop Reading")) {
+      processedFinalResults.clear();
+      recognition.start();
+    }
   };
 }
 

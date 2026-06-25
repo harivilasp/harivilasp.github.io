@@ -118,20 +118,93 @@ h1 {
   margin-bottom: 10px;
 }
 
+.story-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.story-toolbar .card-label {
+  margin-bottom: 0;
+}
+
+.reading-score {
+  color: #6b7280;
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.score-divider {
+  padding: 0 5px;
+  color: #c4b5fd;
+}
+
 #display-text {
   font-size: 1.35rem;
   line-height: 1.8;
   font-weight: 600;
   color: #1f2937;
   min-height: 60px;
+  white-space: pre-wrap;
 }
 
-#highlighted-text {
-  font-size: 1.2rem;
-  line-height: 1.8;
-  font-weight: 600;
-  color: #374151;
-  min-height: 40px;
+.story-word {
+  border-radius: 5px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding: 1px 2px;
+  transition: background-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
+}
+
+.story-word.current {
+  background: #fef3c7;
+  box-shadow: 0 0 0 2px #f59e0b;
+}
+
+.story-word.correct {
+  color: #166534;
+  background: #dcfce7;
+}
+
+.story-word.missed {
+  color: #991b1b;
+  background: #fee2e2;
+  text-decoration: underline wavy #ef4444 1.5px;
+  text-underline-offset: 4px;
+}
+
+.reading-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #eef2ff;
+  color: #6b7280;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.reading-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+}
+
+.legend-current { background: #f59e0b; }
+.legend-correct { background: #22c55e; }
+.legend-missed { background: #ef4444; }
+
+#story-card {
+  max-width: 900px;
 }
 
 #word-meaning {
@@ -147,14 +220,6 @@ h1 {
   color: #6b7280;
   font-style: italic;
   min-height: 28px;
-}
-
-/* ── Highlight ── */
-.highlight {
-  background: #fde68a;
-  border-radius: 6px;
-  padding: 1px 4px;
-  display: inline-block;
 }
 
 /* ── Buttons ── */
@@ -229,5 +294,11 @@ h1 {
   .button-row {
     flex-direction: column;
     padding: 0 8px;
+  }
+
+  .story-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
   }
 }
